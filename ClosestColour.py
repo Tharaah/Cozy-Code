@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
-
-This is a temporary script file.
+This is just a small test code on using a code that consists of RBG values, in which we use a formula to determine the actual RGB Values.
 """
 
 def closestColor(pixels):
