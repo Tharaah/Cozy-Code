@@ -1,0 +1,117 @@
+import pandas as pd
+
+#create blank report
+report = pd.DataFrame()  # blank dataframe created
+
+
+#to see what encoding it has:
+# with open('sq.csv') as f:
+#     print(f)   
+    
+    
+    
+    
+# read current reports   
+sales = pd.read_csv("sales.csv", encoding='cp1252')
+rawdata = pd.read_csv("rawdata.csv", encoding='cp1252')
+pvcv = pd.read_csv("pvcv.csv", encoding='cp1252')
+sq = pd.read_csv("sq.csv", encoding='cp1252')
+
+
+# Extract from rawdata
+SupplierName = rawdata["SupplierName"]
+idProductLine = rawdata["idProductLine"]
+idTsin = rawdata["idTsin"]
+idProduct = rawdata["idProduct"]
+SellerType = rawdata["SellerType"]
+Division = rawdata["Division"]
+ReportingDepartment = rawdata["ReportingDepartment"]
+Level1 = rawdata["Level1"]
+Level2 = rawdata["Level2"]
+Level3 = rawdata["Level3"]
+ProdTitle = rawdata["ProdTitle"]
+SupplierCode = rawdata["SupplierCode"]
+StockType = rawdata["Stock Type"]
+BarCode = rawdata["BarCode"]
+CostPrice = rawdata["CostPrice"]
+WACP = rawdata["WACP"]
+SpecialCostPrice = rawdata["SpecialCostPrice"]
+ListPrice = rawdata["List Price"]
+PricingToolPrice = rawdata["Pricing Tool Price"]
+Margin = rawdata["Margin%"]
+PackSize = rawdata["PackSize"]
+Active = rawdata["Active"]
+Reason = rawdata["Reason"]
+DateAdded = rawdata["DateAdded"]
+DiscontinuedStatus = rawdata["DiscontinuedStatus"]
+CPTSTOCK = rawdata["CPT STOCK"]
+JHBSTOCK = rawdata["JHB STOCK"]
+TOTALSTOCK = rawdata["TOTAL STOCK"]
+SUPPLIERSTOCK = rawdata["SUPPLIER STOCK"]
+SOHVALUE = rawdata["SOH VALUE"]
+
+# Extract info from Sales, pvcv and sq and append to new reports
+
+sales2 = pd.DataFrame()
+sales2.insert( 0,"idProduct", sales["idProduct"], True)
+sales2.insert( 1,"Sales QTY", sales["QTY"],True)
+sales2.insert( 2,"Cost of Sales", sales["COS"], True)
+sales2.insert( 3,"GMV (Ex)", sales["GMV (Ex)"], True)
+
+pvcv2 = pd.DataFrame()
+pvcv2.insert(  0,"idProduct", pvcv["idProduct"], True)
+pvcv2.insert(  1,"Page Views", pvcv["Pageviews"], True)
+pvcv2.insert(  2,"CR%", pvcv["CR%"], True)
+
+
+sq2 = pd.DataFrame()
+sq2.insert(  0,"idProduct", sq["idProduct"], True)
+sq2.insert(  1,"Stock Quality", sq["Stock Quality"], True)
+
+
+
+# Append rawdata to Report
+report.insert( 0,"SupplierName", SupplierName, True)
+report.insert( 1,"idProductLine", idProductLine, True)
+report.insert( 2,"idTsin", idTsin, True)
+report.insert( 3,"idProduct", idProduct, True)
+report.insert( 4,"SellerType", SellerType, True)
+report.insert( 5,"Division", Division, True)
+report.insert( 6,"ReportingDepartment", ReportingDepartment, True)
+report.insert( 7,"Level1", Level1, True)
+report.insert( 8,"Level2", Level2, True)
+report.insert( 9,"Level3", Level3, True)
+report.insert( 10,"ProdTitle", ProdTitle, True)
+report.insert( 11,"SupplierCode", SupplierCode, True)
+report.insert( 12,"Stock Type", StockType, True)
+report.insert( 13,"BarCode", BarCode, True)
+report.insert( 14,"CostPrice", CostPrice, True)
+report.insert( 15,"WACP", WACP, True)
+report.insert( 16,"SpecialCostPrice", SpecialCostPrice, True)
+report.insert( 17,"List Price", ListPrice, True)
+report.insert( 18,"Pricing Tool Price", PricingToolPrice, True)
+report.insert( 19,"Margin%", Margin, True)
+report.insert( 20,"PackSize", PackSize, True)
+report.insert( 21,"Active", Active, True)
+report.insert( 22,"Reason", Reason, True)
+report.insert( 23,"DateAdded", DateAdded, True)
+report.insert( 24,"DiscontinuedStatus", DiscontinuedStatus, True)
+report.insert( 25,"CPT STOCK", CPTSTOCK, True)
+report.insert( 26,"JHB STOCK", JHBSTOCK, True)
+report.insert( 27,"TOTAL STOCK", TOTALSTOCK, True)
+report.insert( 28,"SUPPLIER STOCK", SUPPLIERSTOCK, True)
+report.insert( 29,"SOH VALUE", SOHVALUE, True)
+
+
+
+
+# Merge reports
+report2 = report.merge(sales2, how='left', on='idProduct')
+
+report3 = report2.merge(pvcv2, how='left', on='idProduct')
+
+reportFinal = report3.merge(sq2, how='left', on='idProduct')
+
+# Export final reports
+reportFinal.to_csv(r'C:\Users\tharaah.cozyn\Desktop\SUPPLIER REPORTS\SALES REPORT PYTHON\reportFinal.csv')
+
